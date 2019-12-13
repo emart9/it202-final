@@ -14,17 +14,22 @@
     <style>
       body {margin: 0;}
       :root {
-        --mdc-theme-primary: #001E62;
+        --mdc-theme-primary: #ff5a00;
       }
       .template {display:none;}
       .mdc-dialog__container {margin:5px;}
       .mdc-typography--headline5  {text-align:center;}
+        .apodContent{
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
         
     </style>
 
 
   </head>
-  <body>
+  <body onload="getLocation()">
+     
      <aside class="mdc-drawer mdc-drawer--modal" data-mdc-auto-init="MDCDrawer">
     <div class="mdc-drawer__content">
       <nav class="mdc-list">
@@ -52,7 +57,7 @@
   <div class="mdc-top-app-bar__row">
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
       <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-      <span class="mdc-top-app-bar__title">Your UIN Here </span>
+      <span class="mdc-top-app-bar__title">673079134</span>
     </section>
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
     </section>
@@ -61,10 +66,9 @@
 
 <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust" id="content">
        
-<div id="map"></div>
-
 
 </div>
+<div id="map"></div>
 <div id="modalTransaction"
     class="mdc-dialog"
      role="alertdialog"
@@ -225,9 +229,29 @@
     </script>
 
 
-  <script>
+  <script>   
       var map;
-      function initMap() {
+      var latitude;
+      var long;
+      
+      function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+      
+      function showPosition(position) {
+            latitude = parseFloat(position.coords.latitude);
+            long = parseFloat(position.coords.longitude);
+            map.setCenter({
+		        lat : latitude,
+		        lng : long
+	        });
+        }
+      
+      function initMap() {     
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
